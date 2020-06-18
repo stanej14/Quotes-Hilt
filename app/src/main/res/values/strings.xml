@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Quotes</string>
+
+    <string name="placeholder_empty">Mmmm…\n\t\tMuch empty\n\t\t\t\t\t\tWow</string>
+
+    <!--LANDING PAGE-->
+    <string name="landing_title">Quote of the moment</string>
+    <string name="landing_next">Enter</string>
+
+    <!--FEED PAGE-->
+    <string name="feed_login">Login</string>
+    <string name="descr_login">Login</string>
+    <string name="descr_favorite">Favorite</string>
+
+    <!--LOGIN PAGE-->
+    <string name="login_title">Login</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_login_hint">Login</string>
+    <string name="action_login">Login</string>
+    <string name="login_success">Success!</string>
+
+    <!--Quote detail-->
+    <string name="quote_detail_title">Detail</string>
+    <string name="quote_detail_author_title">Author:</string>
+</resources>

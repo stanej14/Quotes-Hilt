@@ -9,7 +9,7 @@ Used technologies and libraries: Coroutines, LiveData, Retrofit + Moshi, Hilt, C
 ### Functionalities:
 * Quote of the day.
 * Quote detail.
-* Favorite state reflected in Quote detail.
+* Favorite state reflected in Quote detail and Feed.
 * Search.
 * Show quotes by tag after clicking on a tag.
 * Login, token is remembered across sessions.
@@ -19,8 +19,6 @@ Used technologies and libraries: Coroutines, LiveData, Retrofit + Moshi, Hilt, C
 
 ### Next actions:
 * Currently app is treating all errors the same. It just shows a snackbar that an Error has happened. We need to update Logic in ErrorHandler and parse errors coming in success responses from Favqs api.
-* Profile is missing.
-* Logout is missing.
 * User's token is treated like it's neverendin without any refresh token logic.
 * Paging for feed is missing.
 * End-to-End tests.

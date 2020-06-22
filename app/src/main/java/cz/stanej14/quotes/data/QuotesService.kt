@@ -4,6 +4,7 @@ import cz.stanej14.quotes.domain.network.quotes.QuoteDto
 import cz.stanej14.quotes.domain.network.quotes.QuoteOfTheDayResponse
 import cz.stanej14.quotes.domain.network.quotes.QuotesResponse
 import cz.stanej14.quotes.domain.network.session.CreateSessionRequestBody
+import cz.stanej14.quotes.domain.network.session.MessageResponse
 import cz.stanej14.quotes.domain.network.session.SessionResponse
 import retrofit2.http.*
 
@@ -27,6 +28,9 @@ interface QuotesService {
 
     @POST("session")
     suspend fun createUserSession(@Body requestBody: CreateSessionRequestBody): SessionResponse
+
+    @DELETE("session")
+    suspend fun deleteUserSession(): MessageResponse
 
     @PUT("quotes/{quoteId}/fav")
     suspend fun favoriteQuote(@Path("quoteId") quoteId: Long): QuoteDto
@@ -72,6 +76,10 @@ class FakeQuotesService : QuotesService {
     }
 
     override suspend fun createUserSession(requestBody: CreateSessionRequestBody): SessionResponse {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteUserSession(): MessageResponse {
         TODO("Not yet implemented")
     }
 

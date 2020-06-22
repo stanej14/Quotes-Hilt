@@ -8,10 +8,7 @@ import cz.stanej14.quotes.domain.feed.ObserveQuotesUseCase
 import cz.stanej14.quotes.domain.feed.ObserveQuotesUseCaseImpl
 import cz.stanej14.quotes.domain.landing.ObserveLandingQuoteUseCase
 import cz.stanej14.quotes.domain.landing.ObserveLandingQuoteUseCaseImpl
-import cz.stanej14.quotes.domain.session.HasUserSessionUseCase
-import cz.stanej14.quotes.domain.session.HasUserSessionUseCaseImpl
-import cz.stanej14.quotes.domain.session.LoginUserUseCase
-import cz.stanej14.quotes.domain.session.LoginUserUseCaseImpl
+import cz.stanej14.quotes.domain.session.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -40,4 +37,10 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun bindObserveQuoteUseCase(impl: ObserveQuoteUseCaseImpl): ObserveQuoteUseCase
+
+    @Binds
+    abstract fun bindObserveUserInfoUseCase(impl: ObserveUserInfoUseCaseImpl): ObserveUserInfoUseCase
+
+    @Binds
+    abstract fun bindLogOutUserUseCase(impl: LogOutUserUseCaseImpl): LogOutUserUseCase
 }

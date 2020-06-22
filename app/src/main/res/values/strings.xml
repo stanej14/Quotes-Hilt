@@ -17,8 +17,9 @@
     <string name="login_title">Login</string>
     <string name="login_password_hint">Password</string>
     <string name="login_login_hint">Login</string>
-    <string name="action_login">Login</string>
     <string name="login_success">Success!</string>
+    <string name="action_login">Login</string>
+    <string name="action_logout">Logout</string>
 
     <!--Quote detail-->
     <string name="quote_detail_title">Detail</string>

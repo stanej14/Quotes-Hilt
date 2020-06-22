@@ -27,4 +27,3 @@ Used technologies and libraries: Coroutines, LiveData, Retrofit + Moshi, Hilt, C
 * Complete unit test coverage.
 * Dagger compatibility tests.
 * Split OkHttpClients to one with user session and the other without.
-* Reflect Favorite state on Feed/Quote of the day.

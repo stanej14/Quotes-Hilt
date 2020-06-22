@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import cz.stanej14.quotes.TestData
 import cz.stanej14.quotes.common.CoroutinesMainDispatcherRule
-import cz.stanej14.quotes.fake.domain.FakeObtainLandingQuoteUseCase
+import cz.stanej14.quotes.fake.domain.FakeObserveLandingQuoteUseCase
 import cz.stanej14.quotes.model.Quote
 import cz.stanej14.quotes.model.Resource
 import io.mockk.mockk
@@ -27,11 +27,11 @@ class LandingViewModelTest {
     val coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule(TestCoroutineDispatcher())
 
     private lateinit var underTest: LandingViewModel
-    private lateinit var fakeObtainLandingQuoteUseCase: FakeObtainLandingQuoteUseCase
+    private lateinit var fakeObtainLandingQuoteUseCase: FakeObserveLandingQuoteUseCase
 
     @Before
     fun setUp() {
-        fakeObtainLandingQuoteUseCase = FakeObtainLandingQuoteUseCase()
+        fakeObtainLandingQuoteUseCase = FakeObserveLandingQuoteUseCase()
     }
 
     @Test

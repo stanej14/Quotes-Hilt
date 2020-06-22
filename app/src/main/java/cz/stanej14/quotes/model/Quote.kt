@@ -10,4 +10,27 @@ data class Quote(
     val body: String,
     val author: String,
     val isFavorite: Boolean
-) : Parcelable
+) : Parcelable {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Quote
+
+        if (id != other.id) return false
+        if (tags != other.tags) return false
+        if (body != other.body) return false
+        if (author != other.author) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + tags.hashCode()
+        result = 31 * result + body.hashCode()
+        result = 31 * result + author.hashCode()
+        return result
+    }
+}

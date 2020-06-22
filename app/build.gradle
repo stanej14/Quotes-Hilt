@@ -50,6 +50,10 @@ dependencies {
     // Secure shared pref
     implementation "androidx.security:security-crypto:1.1.0-alpha01"
 
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+
     // Hilt
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:$hilt_google"

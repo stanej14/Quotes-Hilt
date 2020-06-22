@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import cz.stanej14.quotes.R
 import cz.stanej14.quotes.domain.error.ErrorHandler
+import cz.stanej14.quotes.domain.util.showSnackbar
 import cz.stanej14.quotes.model.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -51,7 +52,7 @@ class LoginFragment : Fragment() {
 
     private fun showLoginSuccess() {
         progress_login.isVisible = false
-        Snackbar.make(requireView(), R.string.login_success, Snackbar.LENGTH_SHORT).show()
+        requireActivity().showSnackbar(R.string.login_success)
     }
 
     private fun showError(error: Throwable) {

@@ -5,26 +5,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.stanej14.quotes.domain.landing.ObtainLandingQuoteUseCase
+import cz.stanej14.quotes.domain.landing.ObserveLandingQuoteUseCase
+import cz.stanej14.quotes.domain.util.cancelIfActive
 import cz.stanej14.quotes.model.Quote
 import cz.stanej14.quotes.model.Resource
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class LandingViewModel @ViewModelInject constructor(
-    private val obtainLandingQuoteUseCase: ObtainLandingQuoteUseCase
+    private val observeLandingQuoteUseCase: ObserveLandingQuoteUseCase
 ) : ViewModel() {
 
+    private var observeLandingQuoteJob: Job? = null
     private val _quote = MutableLiveData<Resource<Quote>>(Resource.Loading)
     val quote: LiveData<Resource<Quote>> = _quote
 
     init {
-        onRefresh()
+        startObservingLandingQuote()
     }
 
     fun onRefresh() {
-        _quote.value = Resource.Loading
-        viewModelScope.launch {
-            _quote.postValue(obtainLandingQuoteUseCase.obtainLandingQuote())
+        startObservingLandingQuote()
+    }
+
+    private fun startObservingLandingQuote() {
+        observeLandingQuoteJob.cancelIfActive()
+        observeLandingQuoteJob = viewModelScope.launch {
+            _quote.value = Resource.Loading
+            observeLandingQuoteUseCase.observeLandingQuote().collect { resource ->
+                _quote.postValue(resource)
+            }
         }
     }
 }

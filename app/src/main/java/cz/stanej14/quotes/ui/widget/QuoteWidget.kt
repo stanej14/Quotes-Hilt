@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.chip.Chip
 import cz.stanej14.quotes.R
@@ -42,5 +43,7 @@ class QuoteWidget : FrameLayout {
         }.forEach {
             chips_quote.addView(it)
         }
+        val color = if (quote.isFavorite) R.color.colorAccent else R.color.transparent
+        setBackgroundColor(ContextCompat.getColor(context, color))
     }
 }

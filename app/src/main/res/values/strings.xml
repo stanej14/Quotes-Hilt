@@ -2,6 +2,7 @@
     <string name="app_name">Quotes</string>
 
     <string name="placeholder_empty">Mmmm…\n\t\tMuch empty\n\t\t\t\t\t\tWow</string>
+    <string name="common_success">Success!</string>
 
     <!--LANDING PAGE-->
     <string name="landing_title">Quote of the moment</string>

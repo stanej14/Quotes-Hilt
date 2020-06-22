@@ -5,8 +5,9 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV
 import androidx.security.crypto.EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-import androidx.security.crypto.MasterKey
 import androidx.security.crypto.MasterKeys
+import cz.stanej14.quotes.data.QuotesRepository
+import cz.stanej14.quotes.data.QuotesRepositoryImpl
 import cz.stanej14.quotes.domain.error.ErrorHandler
 import cz.stanej14.quotes.domain.network.mapper.QuoteMapper
 import cz.stanej14.quotes.domain.network.mapper.UserMapper
@@ -18,6 +19,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -38,7 +41,6 @@ object DomainModule {
     @Singleton
     @Named("secured_session")
     fun provideSecuredSessionSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        // TODO: Didn't have time to resolve the deprecation.
         val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
         return EncryptedSharedPreferences.create(
             "encrypted_user_session",
@@ -50,10 +52,15 @@ object DomainModule {
     }
 }
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Module
 @InstallIn(ApplicationComponent::class)
 abstract class DomainModuleBinds {
 
     @Binds
     abstract fun bindUserSessionRepository(impl: UserSessionRepositoryImpl): UserSessionRepository
+
+    @Binds
+    abstract fun bindQuoteRepository(impl: QuotesRepositoryImpl): QuotesRepository
 }

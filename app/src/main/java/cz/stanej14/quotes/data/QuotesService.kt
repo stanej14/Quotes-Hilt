@@ -16,6 +16,9 @@ interface QuotesService {
     @GET("qotd")
     suspend fun getQuoteOfTheDay(): QuoteOfTheDayResponse
 
+    @GET("quotes/{quoteId}")
+    suspend fun getQuote(@Path("quoteId") quoteId: Long): QuoteDto
+
     @GET("quotes")
     suspend fun getQuotes(
         @Query("filter") query: String? = null,
@@ -35,6 +38,8 @@ interface QuotesService {
 class FakeQuotesService : QuotesService {
 
     lateinit var quoteOfTheDay: QuoteDto
+    lateinit var favoriteQuoteDto: QuoteDto
+    lateinit var unfavoriteQuoteDto: QuoteDto
     lateinit var quotes: List<QuoteDto>
     var throwable: Throwable? = null
 
@@ -46,6 +51,10 @@ class FakeQuotesService : QuotesService {
         return QuoteOfTheDayResponse(
             quoteOfTheDay
         )
+    }
+
+    override suspend fun getQuote(quoteId: Long): QuoteDto {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getQuotes(
@@ -67,10 +76,12 @@ class FakeQuotesService : QuotesService {
     }
 
     override suspend fun favoriteQuote(quoteId: Long): QuoteDto {
-        TODO("Not yet implemented")
+        throwable?.run { throw this }
+        return favoriteQuoteDto
     }
 
     override suspend fun unfavoriteQuote(quoteId: Long): QuoteDto {
-        TODO("Not yet implemented")
+        throwable?.run { throw this }
+        return unfavoriteQuoteDto
     }
 }

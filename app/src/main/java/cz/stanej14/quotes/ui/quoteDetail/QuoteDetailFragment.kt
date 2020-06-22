@@ -1,7 +1,6 @@
 package cz.stanej14.quotes.ui.quoteDetail
 
 import android.os.Bundle
-import android.util.EventLog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import cz.stanej14.quotes.R
 import cz.stanej14.quotes.domain.error.ErrorHandler
 import cz.stanej14.quotes.domain.livedata.EventObserver
+import cz.stanej14.quotes.domain.util.showSnackbar
 import cz.stanej14.quotes.model.Quote
 import cz.stanej14.quotes.model.Resource
 import cz.stanej14.quotes.ui.main.NavigationViewModel
@@ -58,16 +59,29 @@ class QuoteDetailFragment : Fragment() {
         toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         btn_quote_detail_favorite.setOnClickListener { viewModel.onFavoriteClicked() }
 
-        viewModel.quote.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is Resource.Success -> renderQuote(it.data)
-                is Resource.Loading -> showLoading()
-                is Resource.Error -> handleError(it.error)
-            }
-        })
-        viewModel.loginEvent.observe(viewLifecycleOwner, EventObserver {
-            navigationViewModel.navigateToLogin()
-        })
+        with(viewModel) {
+            quote.observe(viewLifecycleOwner, Observer {
+                when (it) {
+                    is Resource.Success -> renderQuote(it.data)
+                    is Resource.Loading -> showLoading()
+                    is Resource.Error -> handleError(it.error)
+                }
+            })
+            loginEvent.observe(viewLifecycleOwner, EventObserver {
+                navigationViewModel.navigateToLogin()
+            })
+            favorite.observe(viewLifecycleOwner, Observer {
+                when (it) {
+                    is Resource.Success -> showSuccess()
+                    is Resource.Loading -> showLoading()
+                    is Resource.Error -> errorHandler.handleFavoringError(requireView())
+                }
+            })
+        }
+    }
+
+    private fun showSuccess() {
+        requireActivity().showSnackbar(R.string.common_success)
     }
 
     private fun handleError(error: Throwable) {

@@ -5,16 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.stanej14.quotes.domain.feed.ObtainQuotesUseCase
+import cz.stanej14.quotes.domain.feed.ObserveQuotesUseCase
 import cz.stanej14.quotes.model.Quote
 import cz.stanej14.quotes.model.Resource
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class FeedViewModel @ViewModelInject constructor(
-    private val obtainQuotesUseCase: ObtainQuotesUseCase
+    private val obtainQuotesUseCase: ObserveQuotesUseCase
 ) : ViewModel() {
 
     companion object {
@@ -66,11 +67,13 @@ class FeedViewModel @ViewModelInject constructor(
         queryJob?.cancel()
         try {
             queryJob = viewModelScope.launch {
-                val data = when {
-                    tag != null -> obtainQuotesUseCase.obtainQuotes(tag, true)
-                    else -> obtainQuotesUseCase.obtainQuotes(query)
+                val flow = when {
+                    tag != null -> obtainQuotesUseCase.observeQuotes(tag, true)
+                    else -> obtainQuotesUseCase.observeQuotes(query)
                 }
-                _quotes.postValue(data)
+                flow.collect { resource ->
+                    _quotes.postValue(resource)
+                }
             }
         } catch (e: CancellationException) {
             // Ignoring.

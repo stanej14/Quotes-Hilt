@@ -15,8 +15,8 @@ class FakeQuotesRepository : QuotesRepository {
 
     private var throwable: Throwable? = null
     val quoteOfTheDayChannel = ConflatedBroadcastChannel<Quote>()
-
     val quoteByIdChannel = ConflatedBroadcastChannel<Quote>()
+    val quotesChannel = ConflatedBroadcastChannel<List<Quote>>()
 
     fun shouldFail(_throwable: Throwable = RuntimeException()) {
         throwable = _throwable
@@ -33,8 +33,17 @@ class FakeQuotesRepository : QuotesRepository {
         }
     }
 
-    override suspend fun observeQuotes(): Flow<Resource<List<Quote>>> {
-        TODO("Not yet implemented")
+    override suspend fun observeQuotes(
+        query: String?,
+        shouldSearchByTag: Boolean
+    ): Flow<Resource<List<Quote>>> {
+        return quotesChannel.asFlow().map {
+            if (throwable != null) {
+                Resource.Error(throwable!!)
+            } else {
+                Resource.Success(it)
+            }
+        }
     }
 
     override suspend fun observeQuoteById(quoteId: Long): Flow<Resource<Quote>> {

@@ -1,11 +1,13 @@
 package cz.stanej14.quotes.fake.domain
 
 import cz.stanej14.quotes.TestData
-import cz.stanej14.quotes.domain.feed.ObtainQuotesUseCase
+import cz.stanej14.quotes.domain.feed.ObserveQuotesUseCase
 import cz.stanej14.quotes.model.Quote
 import cz.stanej14.quotes.model.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-class FakeObtainQuotesUseCase : ObtainQuotesUseCase {
+class FakeObserveQuotesUseCase : ObserveQuotesUseCase {
 
     private var quotes: List<Quote>? = null
     private var throwable: Throwable = TestData.serverError
@@ -26,16 +28,17 @@ class FakeObtainQuotesUseCase : ObtainQuotesUseCase {
         this.throwable = throwable
     }
 
-    override suspend fun obtainQuotes(
+    override suspend fun observeQuotes(
         query: String?,
         shouldSearchByTag: Boolean
-    ): Resource<List<Quote>> {
+    ): Flow<Resource<List<Quote>>> {
         calls++
-        quotes?.run {
-            usedQuery = query
-            usedSearchByTag = shouldSearchByTag
-            return Resource.Success(this)
+        usedQuery = query
+        usedSearchByTag = shouldSearchByTag
+        return flow {
+            val result: Resource<List<Quote>> = if (quotes != null) Resource.Success(quotes!!)
+            else Resource.Error(throwable)
+            emit(result)
         }
-        return Resource.Error(throwable)
     }
 }

@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import cz.stanej14.quotes.TestData
 import cz.stanej14.quotes.common.CoroutinesMainDispatcherRule
-import cz.stanej14.quotes.fake.domain.FakeObtainQuotesUseCase
+import cz.stanej14.quotes.fake.domain.FakeObserveQuotesUseCase
 import cz.stanej14.quotes.model.Quote
 import cz.stanej14.quotes.model.Resource
 import io.mockk.mockk
@@ -32,11 +32,11 @@ class FeedViewModelTest {
     val coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule(testDispatcher)
 
     private lateinit var underTest: FeedViewModel
-    private lateinit var fakeObtainQuotesUseCase: FakeObtainQuotesUseCase
+    private lateinit var fakeObtainQuotesUseCase: FakeObserveQuotesUseCase
 
     @Before
     fun setUp() {
-        fakeObtainQuotesUseCase = FakeObtainQuotesUseCase()
+        fakeObtainQuotesUseCase = FakeObserveQuotesUseCase()
     }
 
     @Test

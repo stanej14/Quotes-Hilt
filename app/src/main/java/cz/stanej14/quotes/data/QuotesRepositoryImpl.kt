@@ -5,12 +5,12 @@ import cz.stanej14.quotes.domain.network.quotes.QuoteDto
 import cz.stanej14.quotes.model.Quote
 import cz.stanej14.quotes.model.Resource
 import cz.stanej14.quotes.model.data
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.channelFlow
 import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,7 +37,13 @@ class QuotesRepositoryImpl @Inject constructor(
         return quoteOfTheDayChannel.asFlow()
     }
 
-    override suspend fun observeQuotes() = quotes.asFlow()
+    override suspend fun observeQuotes(
+        query: String?,
+        shouldSearchByTag: Boolean
+    ): Flow<Resource<List<Quote>>> {
+        quotes.offer(obtainQuotes(query, shouldSearchByTag))
+        return quotes.asFlow()
+    }
 
     override fun onQuoteFavoriteChange(quote: Quote) {
         if (quote == getQuoteOfTheDay()) {
@@ -80,6 +86,22 @@ class QuotesRepositoryImpl @Inject constructor(
     private suspend fun obtainQuoteOfTheDay() =
         obtainQuote { quotesService.getQuoteOfTheDay().quote }
 
+    private suspend fun obtainQuotes(
+        query: String?,
+        shouldSearchByTag: Boolean
+    ): Resource<List<Quote>> {
+        return try {
+            val data = query?.run {
+                val type = QuotesService.TYPE_TAG.takeIf { shouldSearchByTag }
+                quotesService.getQuotes(query = query, type = type).quotes
+            } ?: quotesService.getQuotes().quotes
+            Resource.Success(mapper.map(data))
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+    }
 
     private suspend fun obtainQuote(obtainFun: suspend () -> QuoteDto): Resource<Quote> {
         return try {

@@ -4,8 +4,8 @@ import cz.stanej14.quotes.domain.detail.ObserveQuoteUseCase
 import cz.stanej14.quotes.domain.detail.ObserveQuoteUseCaseImpl
 import cz.stanej14.quotes.domain.detail.ToggleFavoriteQuoteUseCase
 import cz.stanej14.quotes.domain.detail.ToggleFavoriteQuoteUseCaseImpl
-import cz.stanej14.quotes.domain.feed.ObtainQuotesUseCase
-import cz.stanej14.quotes.domain.feed.ObtainQuotesUseCaseImpl
+import cz.stanej14.quotes.domain.feed.ObserveQuotesUseCase
+import cz.stanej14.quotes.domain.feed.ObserveQuotesUseCaseImpl
 import cz.stanej14.quotes.domain.landing.ObserveLandingQuoteUseCase
 import cz.stanej14.quotes.domain.landing.ObserveLandingQuoteUseCaseImpl
 import cz.stanej14.quotes.domain.session.HasUserSessionUseCase
@@ -27,7 +27,7 @@ abstract class UseCaseModule {
     abstract fun bindObtainLandingQuoteUseCase(impl: ObserveLandingQuoteUseCaseImpl): ObserveLandingQuoteUseCase
 
     @Binds
-    abstract fun bindObtainQuotesUseCase(impl: ObtainQuotesUseCaseImpl): ObtainQuotesUseCase
+    abstract fun bindObtainQuotesUseCase(impl: ObserveQuotesUseCaseImpl): ObserveQuotesUseCase
 
     @Binds
     abstract fun bindLoginUserUseCase(impl: LoginUserUseCaseImpl): LoginUserUseCase

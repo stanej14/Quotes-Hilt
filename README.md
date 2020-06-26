@@ -1,5 +1,4 @@
-# Quotes application
-## Client for Favqs api.
+# Client for Favqs api.
 
 ### Technology
 The application was written based on MVVM framework using Repositories and UseCases. The app is experimenting with the newly released library Hilt which is based on Dagger for DI.
